@@ -1,0 +1,93 @@
+<h1>Listing bunks</h1>
+      
+      <div id="new_modal" class="reveal-modal" data-reveal></div>
+      <div id="edit_modal" class="reveal-modal" data-reveal></div>
+      <div id="show_modal" class="reveal-modal" data-reveal></div>
+
+      <table>
+        <thead>
+          <tr>
+            <th width="20%">Subject Name</th>
+            <th>Present</th>
+            <th>Total</th>
+            <th>Bunk</th>
+            <th>Percentage</th>
+            <th width="12%"><b style="color:red">To Attend</b><br/>or<br/><b style="color:green">Can Bunk</b></th>
+            <th colspan="9"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @total_bunk = 0 %><% @total_total = 0 %><% @total_present = 0 %><% @total_percentage = 0.0 %>
+          <% @total_classes = 0 %>
+          <% @bunks.each do |bunk| %>
+            <% if bunk.user_id == current_user.id %>
+              <tr>
+                <% @_bunk = bunk.bunk %><% @total_bunk = @total_bunk + @_bunk %>
+                <% @_total = bunk.total %><% @total_total = @total_total + @_total %>
+                <% @_present =  @_total - @_bunk %><% @total_present = @total_present + @_present %>
+                <% @_percentage = ((@_present.to_f*100)/@_total.to_f).round(2) %>
+                <% @_subject = bunk.subjectname %> 
+                <td><%=  @_subject %></td>
+                <td><%= @_present %></td>
+                <td><%= @_total %></td>
+                <td><%= @_bunk %></td>
+                <td class="<%= @_percentage<80.0 ? 'red' : 'green' %>"><%= @_percentage %>%</td>
+                <% if @_percentage<=80.0 %>
+                  <% (1..100).each do |i| %>
+                    <% if (((@_present+i).to_f*100)/(@_total+i).to_f) >= 80.00%>
+                      <% @classes = i %>
+                      <% break %>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <% (1..100).each do |i| %>
+                    <% if (((@_present).to_f*100)/(@_total+i).to_f) < 80.00 %>
+                      <% @classes = i %>
+                      <% break %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+                <td class="<%= @_percentage<80.0 ? 'red' : 'green' %>"><%= @classes %></td>
+                <td width="30%"> 
+                  <%= link_to 'Show', bunk_path(bunk), class:'button tiny radius secondary', 'data-reveal-id' => 'show_modal', :remote => true  %>
+                  <%= link_to 'Edit', edit_bunk_path(bunk), class:'button tiny radius', 'data-reveal-id' => 'edit_modal', :remote => true %>
+                  <%= link_to 'Destroy', bunk, method: :delete, data: { confirm: 'Are you sure?' }, class:'button tiny radius alert' %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+              <tr>
+                <td><b>TOTAL</b></td>
+                <td><b><%= @total_present %></b></td>
+                <td><b><%= @total_total %></b></td>
+                <td><b><%= @total_bunk %></b></td>
+                    <% @total_percentage = (@total_present.to_f * 100 / @total_total.to_f).round(2) %>
+                <td class="<%= @total_percentage<=80.0 ? 'red' : 'green' %>">
+                  <b><%= @total_percentage %>%</b>
+                </td>
+                <% if @total_percentage<=80.0 %>
+                  <% (1..100).each do |i| %>
+                    <% if (((@total_present+i).to_f*100)/(@total_total+i).to_f) >= 80.00%>
+                      <% @total_classes = i %>
+                      <% break %>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <% (1..100).each do |i| %>
+                    <% if (((@total_present).to_f*100)/(@total_total+i).to_f) < 80.00 %>
+                      <% @total_classes = i %>
+                      <% break %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+                <td class="<%= @total_percentage<=80.0 ? 'red' : 'green' %>"><%= @total_classes %></td>
+                <td></td>
+              </tr>
+        </tbody>
+      </table>
+
+      <%= link_to 'New Bunk', new_bunk_path, class: 'button small radius secondary', 'data-reveal-id' => 'new_modal', :remote => true %>
+<br>
+
+  

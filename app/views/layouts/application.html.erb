@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= content_for?(:title) ? yield(:title) : "Bunk Zilla" %></title>
+
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "vendor/modernizr" %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+    <nav class="top-bar" data-topbar role="navigation">
+      <ul class="title-area">
+        <li class="name">
+          <h1><span><%= link_to 'Home', root_url %></span></h1>
+        </li>
+         <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+        <li class="toggle-topbar menu-icon"></li>
+      </ul>
+
+     <section class="top-bar-section">
+      <ul class="left">
+        <li class="divider"></li>
+        <li>
+          <%= link_to 'Bunks', bunks_url %>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <%= link_to 'About', pages_about_url %>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <%= link_to 'Contact', pages_contact_url %>
+        </li>
+        <li class="divider"></li>
+      </ul>
+      <ul class="right">
+        <% if user_signed_in? %>
+          <li class="divider"></li>
+          <li>
+            <%= link_to current_user.email, "#" %>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <%= link_to "Log out", destroy_user_session_path, :method => :delete %>
+          </li>
+        <% else %>
+          <li class="divider"></li>
+          <li>
+            <%= link_to "Sign In", new_user_session_path %>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <%= link_to "Sign Up", new_user_registration_path %>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+    </nav>
+    <div class="row">
+        <div class="large-10 large-offset-2 columns-3">
+            <%= yield %>
+        </div>
+    </div>
+    <%= javascript_include_tag "application" %>
+  </body>
+</html>

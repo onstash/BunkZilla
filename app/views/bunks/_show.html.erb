@@ -1,0 +1,22 @@
+<p>
+  <strong>Subject Name:</strong>
+  <%= @bunk.subjectname %>
+</p>
+
+<p>
+  <strong>Bunk:</strong>
+  <%= @bunk.bunk %>
+</p>
+
+<p>
+  <strong>Total:</strong>
+  <%= @bunk.total %>
+</p>
+
+<p>
+  <strong>Comments:</strong>
+  <%= @bunk.comments %>
+</p>
+
+<div id="edit_modal" class="reveal-modal" data-reveal></div>
+<%= link_to 'Edit', edit_bunk_path(@bunk), class:'button radius', 'data-reveal-id' => 'edit_modal', :remote => true %>

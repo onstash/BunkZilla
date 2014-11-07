@@ -1,0 +1,8 @@
+== README
+
+This is a simple Ruby on Rails web application to manage the bunks of an undergraduate student
+
+* Uses sqlite database [Plans to migrate to Mongo/PostgreSQL database]
+* Uses Zurb's Foundation 5 Frontend Framework for the Frontend
+* Uses Devise to authenticate users
+* Uses CanCan to authorize users

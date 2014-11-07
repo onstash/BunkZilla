@@ -1,0 +1,8 @@
+<%= simple_form_for(@bunk) do |f| %>
+  <%= f.input :subjectname, label: 'Subject Name' %>
+  <%= f.input :bunk, label: 'Bunk' %>
+  <%= f.input :total, label: 'Total' %>
+  <%= f.input :comments, label: 'Comments' %>
+  <%= f.button :submit, class: 'button small radius success' %>
+
+<% end %>
